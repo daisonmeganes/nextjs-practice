@@ -1,26 +1,35 @@
 import { getTrends } from "@/art/getTrends"
+import { AddArtForm } from "./AddArtForm"
+import { Badge } from "@mantine/core"
 //import { add } from "@/art/add"
 
 export default async function Home() {
-  const arts = getTrends()
+  const arts = await getTrends()
+  function handleClick() {
+    console.log("increment like count")
+  }
   return (
     <div>
 
       <h1>作品登録</h1>
 
-      <button className='btn btn-primary mt-3'>追加</button>
-
       <div>
-        {(await arts).map(art =>
+        {arts.map(art =>
           <div key={art.id}>
-            <h1>{art.id}</h1>
             <h2>{art.title}</h2>
-            <h3>{art.author}</h3>
-            <h4>{art.tag}</h4>
+            <div>
+              {art.id}
+            </div>
+            {art.author}
+            {art.tag.map(tag =>
+              <Badge key={tag} color="blue">{tag}</Badge>
+            )}
+
           </div>)}
 
-      </div>
+        <AddArtForm></AddArtForm>
 
+      </div>
 
     </div>
   )
